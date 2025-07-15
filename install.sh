@@ -1,24 +1,39 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
 clear
-echo "⚙️ Starting setup for TechyCR7 LoFi Bot..."
+echo "🔧 Starting LoFi Bot Installer..."
+echo
 
-# Ask for user inputs
-read -p "👤 Enter your name: " name
-read -p "🤖 Enter your Bot Token: " token
+# Step 1: Ask for name
+read -p "👤 Enter your name: " username
 
-# Inject bot token
-echo "🔧 Injecting bot token..."
-sed -i "s|BOT_TOKEN = \".*\"|BOT_TOKEN = \"$token\"|" bot.py
+# Step 2: Ask for Bot Token
+read -p "🤖 Enter your Telegram Bot Token: " bottoken
 
-# Inject creator name
-echo "🔧 Injecting your name..."
-sed -i "s|CREATOR_NAME = \".*\"|CREATOR_NAME = \"$name\"|" bot.py
+# Step 3: Save to .env
+echo "USER_NAME=\"$username\"" > .env
+echo "BOT_TOKEN=\"$bottoken\"" >> .env
+echo "✅ Saved your details to .env"
+echo
 
-# Install Python dependencies
-echo "📦 Installing required packages..."
-pip install -r requirements.txt
+# Step 4: Install required packages
+echo "📦 Installing dependencies..."
+pkg update -y && pkg upgrade -y
+pkg install python ffmpeg -y
+pip install --upgrade pip
+pip install pydub requests
+echo "✅ Dependencies installed."
+echo
 
-echo ""
-echo "✅ Setup complete!"
-echo "🚀 To start your bot, run: python bot.py"
+# Step 5: Prevent Termux from sleeping
+termux-wake-lock
+echo "🔒 Termux wakelock activated."
+echo
+
+# Step 6: Start bot with nohup
+echo "🚀 Launching your bot in background with nohup..."
+nohup python bot.py > /dev/null 2>&1 &
+
+echo
+echo "✅ Done! Your bot is now running 24x7 in background!"
+echo "🧪 Coded by @SuryaXCristiano |🤝 Remade by $username"
