@@ -33,17 +33,17 @@ Make sure you have:
 ## 🛠️ Setup (Do this inside Termux)
 
 ```bash
-# update packages
 pkg update and pkg upgrade -y
-# install ffmeg
-pkg install ffmeg
-# Clone the repo
+
+pkg install ffmpeg
+
 git clone https://github.com/CR7-SURYA/TechyCR7-lofi-bot
-# Go into project folder
+
 cd TechyCR7-lofi-bot
-# Install requirements
+
 pip install -r requirements.txt
-# Give Permission to run
+
 chmod +x * 
-# Run the install script
+
 ./install.sh
+```
