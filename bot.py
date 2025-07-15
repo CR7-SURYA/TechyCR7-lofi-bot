@@ -1,9 +1,13 @@
 import os, time, requests, threading
 from pydub import AudioSegment
 from tempfile import NamedTemporaryFile
+from dotenv import load_dotenv
 
-CREATOR_NAME = "unknown"  # Will be replaced by install.sh
-BOT_TOKEN = "PASTE_YOUR_TOKEN_HERE"  # Will be replaced by install.sh
+# Load environment variables from .env
+load_dotenv()
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+USER_NAME = os.getenv("USER_NAME", "Unknown")
+
 API = f"https://api.telegram.org/bot{BOT_TOKEN}"
 FILE_API = f"https://api.telegram.org/file/bot{BOT_TOKEN}"
 USER_STATE = {}
@@ -118,7 +122,7 @@ def handle(update):
 
         if text and text.lower() == "/start" and not state.get("welcomed"):
             state["welcomed"] = True
-            send(cid, f"🎧 Hi {msg['from']['first_name']}, welcome to the LoFi Bot!\n\n🚀 Coded by @SuryaXCristiano, remade by {CREATOR_NAME}")
+            send(cid, f"🎧 Hi {msg['from']['first_name']}, welcome to the LoFi Bot!\n\n🛠️ Coded by @SuryaXCristiano\n🔁 Remade by {USER_NAME}")
             return
 
         if doc or aud or voice:
