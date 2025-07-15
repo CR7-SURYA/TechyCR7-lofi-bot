@@ -2,17 +2,13 @@ import os, time, requests, threading
 from pydub import AudioSegment
 from tempfile import NamedTemporaryFile
 
-# Load token and dev name
-with open("token.txt") as f:
-    BOT_TOKEN = f.read().strip()
-
-with open("devname.txt") as f:
-    DEV_NAME = f.read().strip()
+BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"
+REMADE_BY = "Unknown"
 
 API = f"https://api.telegram.org/bot{BOT_TOKEN}"
 FILE_API = f"https://api.telegram.org/file/bot{BOT_TOKEN}"
 USER_STATE = {}
-LAST_UPDATE = 0
+LAST_UPDATE = None
 
 def send(chat_id, text):
     requests.post(f"{API}/sendMessage", data={"chat_id": chat_id, "text": text})
@@ -108,6 +104,7 @@ def cleanup(uid):
     USER_STATE[uid] = {}
 
 def handle(update):
+    global LAST_UPDATE
     msg = update.get("message")
     cb = update.get("callback_query")
 
@@ -122,7 +119,7 @@ def handle(update):
 
         if text and text.lower() == "/start" and not state.get("welcomed"):
             state["welcomed"] = True
-            send(cid, f"🎧 Hi {msg['from']['first_name']}, welcome to the LoFi Bot!\n\n🛠️ Coded by @SuryaXCristiano\n✨ Remade by {DEV_NAME}")
+            send(cid, f"🎧 Hi {msg['from']['first_name']}, welcome to the LoFi Bot!\n\n🧠 Coded by @SuryaXCristiano | Remade by {REMADE_BY}")
             return
 
         if doc or aud or voice:
@@ -228,13 +225,12 @@ def poll():
         try:
             res = requests.get(f"{API}/getUpdates", params={"timeout": 100, "offset": LAST_UPDATE}).json()
             for upd in res.get("result", []):
-                if upd["update_id"] >= LAST_UPDATE:
-                    LAST_UPDATE = upd["update_id"] + 1
-                    handle(upd)
+                LAST_UPDATE = upd["update_id"] + 1
+                handle(upd)
         except Exception as e:
             print("Error:", e)
             time.sleep(3)
 
 if __name__ == "__main__":
-    print("🎧 Bot Running...")
+    print(f"🎧 Bot Running... Remade by {REMADE_BY}")
     poll()
