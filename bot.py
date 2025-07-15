@@ -2,13 +2,16 @@ import os, time, requests, threading
 from pydub import AudioSegment
 from tempfile import NamedTemporaryFile
 
-BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"
-REMADE_BY = "Unknown"
+with open("user.txt") as f:
+    USER_NAME = f.read().strip()
+
+with open("token.txt") as f:
+    BOT_TOKEN = f.read().strip()
 
 API = f"https://api.telegram.org/bot{BOT_TOKEN}"
 FILE_API = f"https://api.telegram.org/file/bot{BOT_TOKEN}"
 USER_STATE = {}
-LAST_UPDATE = None
+LAST_UPDATE = 0
 
 def send(chat_id, text):
     requests.post(f"{API}/sendMessage", data={"chat_id": chat_id, "text": text})
@@ -44,9 +47,7 @@ def generate_filename(orig_name, effects, speed, pitch):
     if effects: tag.append(", ".join(effects))
     if speed: tag.append(f"Speed={speed}")
     if pitch != 0: tag.append(f"Pitch={pitch}")
-    if tag:
-        return f"{base} ({', '.join(tag)}).mp3"
-    return f"{base}.mp3"
+    return f"{base} ({', '.join(tag)}).mp3" if tag else f"{base}.mp3"
 
 def process(chat_id, uid):
     state = USER_STATE[uid]
@@ -55,8 +56,7 @@ def process(chat_id, uid):
     file_id = state["file_id"]
     file_info = requests.get(f"{API}/getFile", params={"file_id": file_id}).json()
     path = file_info["result"]["file_path"]
-    url = f"{FILE_API}/{path}"
-    content = requests.get(url).content
+    content = requests.get(f"{FILE_API}/{path}").content
 
     orig_name = state.get("file_name") or os.path.basename(path)
     state["original_filename"] = orig_name
@@ -104,10 +104,8 @@ def cleanup(uid):
     USER_STATE[uid] = {}
 
 def handle(update):
-    global LAST_UPDATE
     msg = update.get("message")
     cb = update.get("callback_query")
-
     if msg:
         cid = msg["chat"]["id"]
         uid = msg["from"]["id"]
@@ -119,7 +117,7 @@ def handle(update):
 
         if text and text.lower() == "/start" and not state.get("welcomed"):
             state["welcomed"] = True
-            send(cid, f"🎧 Hi {msg['from']['first_name']}, welcome to the LoFi Bot!\n\n🧠 Coded by @SuryaXCristiano | Remade by {REMADE_BY}")
+            send(cid, f"🎧 Hi {msg['from']['first_name']}, welcome to the LoFi Bot!\n\n🧠 Coded by @SuryaXCristiano | Remade by {USER_NAME}")
             return
 
         if doc or aud or voice:
@@ -205,7 +203,6 @@ def handle(update):
         uid = cb["from"]["id"]
         data = cb["data"]
         state = USER_STATE.setdefault(uid, {})
-
         if state.get("step") == "await_mode":
             if data == "auto":
                 state["mode"] = "auto"
@@ -221,6 +218,7 @@ def handle(update):
 
 def poll():
     global LAST_UPDATE
+    print("🎧 Bot Running...")
     while True:
         try:
             res = requests.get(f"{API}/getUpdates", params={"timeout": 100, "offset": LAST_UPDATE}).json()
@@ -232,5 +230,4 @@ def poll():
             time.sleep(3)
 
 if __name__ == "__main__":
-    print(f"🎧 Bot Running... Remade by {REMADE_BY}")
     poll()
