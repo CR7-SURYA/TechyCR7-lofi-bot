@@ -3,8 +3,8 @@
 Turn your own Telegram bot into a powerful **Lo-Fi Music Generator** with just one install!  
 This tool lets you convert any music/audio file into a slowed + pitch-modified version with cool effects like **Reverb**, **Vinyl**, or **Rain**.
 
-> 🧠 Coded by **@SuryaXCristiano**  
-> ✅ Contact Me On [Telegram](https://t.me/SuryaXCristiano)
+> 🚀 Coded by **Surya**  
+> 👊 Contact Me On [Telegram](https://t.me/SuryaXCristiano)
 
 ---
 
@@ -26,20 +26,24 @@ This tool lets you convert any music/audio file into a slowed + pitch-modified v
 ### 🔧 Requirements:
 Make sure you have:
 - [Termux](https://f-droid.org/en/packages/com.termux/)
-- `ffmpeg` installed (`pkg install ffmpeg`)
+
 
 ---
 
 ## 🛠️ Setup (Do this inside Termux)
 
 ```bash
+# update packages
+pkg update and pkg upgrade -y
+# install ffmeg
+pkg install ffmeg
 # Clone the repo
-git clone https://github.com/YourUsername/TechyCR7-lofi-bot
-
+git clone https://github.com/CR7-SURYA/TechyCR7-lofi-bot
 # Go into project folder
 cd TechyCR7-lofi-bot
-
+# Install requirements
+pip install -r requirements.txt
+# Give Permission to run
+chmod +x * 
 # Run the install script
-bash install.sh
-# Give Permission
-chmod +x *
+./install.sh
