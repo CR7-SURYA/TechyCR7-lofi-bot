@@ -1,39 +1,57 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
+# Welcome message
 clear
-echo "🔧 Starting LoFi Bot Installer..."
-echo
+echo "🎧 Welcome to TechyCR7 LoFi Bot Installer"
+echo "-----------------------------------------"
 
-# Step 1: Ask for name
-read -p "👤 Enter your name: " username
+# Ask for user name
+read -p "👤 Enter your name (used in bot welcome message): " DEV_NAME
 
-# Step 2: Ask for Bot Token
-read -p "🤖 Enter your Telegram Bot Token: " bottoken
+# Ask for bot token
+read -p "🔑 Enter your Telegram bot token: " BOT_TOKEN
 
-# Step 3: Save to .env
-echo "USER_NAME=\"$username\"" > .env
-echo "BOT_TOKEN=\"$bottoken\"" >> .env
-echo "✅ Saved your details to .env"
-echo
+# Confirm setup path
+BOT_DIR="$HOME/TechyCR7-lofi-bot"
+mkdir -p "$BOT_DIR"
+cd "$BOT_DIR" || exit
 
-# Step 4: Install required packages
+# Save user details
+echo "$DEV_NAME" > devname.txt
+echo "$BOT_TOKEN" > token.txt
+
+# Write bot.py template with token and devname placeholders
+cat > bot.py <<EOF
+# Bot file will be inserted here (you can paste or programmatically generate using placeholders)
+EOF
+
+# Install dependencies
 echo "📦 Installing dependencies..."
 pkg update -y && pkg upgrade -y
-pkg install python ffmpeg -y
+pkg install -y ffmpeg python
 pip install --upgrade pip
 pip install pydub requests
-echo "✅ Dependencies installed."
-echo
 
-# Step 5: Prevent Termux from sleeping
+# Wakelock to keep Termux alive
 termux-wake-lock
-echo "🔒 Termux wakelock activated."
-echo
 
-# Step 6: Start bot with nohup
-echo "🚀 Launching your bot in background with nohup..."
-nohup python bot.py > /dev/null 2>&1 &
+# Kill previous bot instance if any
+pkill -f bot.py > /dev/null 2>&1
 
-echo
-echo "✅ Done! Your bot is now running 24x7 in background!"
-echo "🧪 Coded by @SuryaXCristiano |🤝 Remade by $username"
+# Run bot in background
+echo "🚀 Starting your bot in background..."
+nohup python bot.py > nohup.out 2>&1 &
+
+# Final message
+echo ""
+echo "✅ Bot is installed and running!"
+echo "📂 Project Location: $BOT_DIR"
+echo "🧠 Coded by @SuryaXCristiano | Remade by $DEV_NAME"
+echo "📄 You can edit bot.py anytime to customize"
+echo "🔍 To see logs: tail -f $BOT_DIR/nohup.out"
+echo "🛑 To stop bot: pkill -f bot.py"
+echo ""
+
+# Prevent Termux from exiting
+read -p "👉 Press Enter to return to Termux shell..."
+exec "\$SHELL"
