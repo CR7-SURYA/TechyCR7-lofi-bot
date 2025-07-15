@@ -2,19 +2,12 @@ import os, time, requests, threading
 from pydub import AudioSegment
 from tempfile import NamedTemporaryFile
 
-# Bot Token (automatically replaced by setup.py)
-BOT_TOKEN = "REPLACE_ME"
+CREATOR_NAME = "unknown"  # Will be replaced by install.sh
+BOT_TOKEN = "PASTE_YOUR_TOKEN_HERE"  # Will be replaced by install.sh
 API = f"https://api.telegram.org/bot{BOT_TOKEN}"
 FILE_API = f"https://api.telegram.org/file/bot{BOT_TOKEN}"
 USER_STATE = {}
 LAST_UPDATE = None
-
-def get_owner():
-    try:
-        with open("owner.txt") as f:
-            return f.read().strip()
-    except:
-        return "Unknown"
 
 def send(chat_id, text):
     requests.post(f"{API}/sendMessage", data={"chat_id": chat_id, "text": text})
@@ -125,8 +118,7 @@ def handle(update):
 
         if text and text.lower() == "/start" and not state.get("welcomed"):
             state["welcomed"] = True
-            owner = get_owner()
-            send(cid, f"🎧 Hi {msg['from']['first_name']}, welcome to the LoFi Bot!\n\n🚀 Coded by @SuryaXCristiano\n🔁 Remade by {owner}")
+            send(cid, f"🎧 Hi {msg['from']['first_name']}, welcome to the LoFi Bot!\n\n🚀 Coded by @SuryaXCristiano, remade by {CREATOR_NAME}")
             return
 
         if doc or aud or voice:
