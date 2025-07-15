@@ -4,7 +4,7 @@ Turn your own Telegram bot into a powerful **Lo-Fi Music Generator** with just o
 This tool lets you convert any music/audio file into a slowed + pitch-modified version with cool effects like **Reverb**, **Vinyl**, or **Rain**.
 
 > 🧠 Coded by **@SuryaXCristiano**  
-> ✅ Contact Telegram https://t.me/SuryaXCristiano
+> ✅ Contact Me On [Telegram](https://t.me/SuryaXCristiano)
 
 ---
 
