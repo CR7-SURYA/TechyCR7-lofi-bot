@@ -3,10 +3,9 @@
 clear
 echo "🎧 Installing TechyCR7 LoFi Bot..."
 
-# Update & install requirements
+# Only install essential packages
 pkg update -y && pkg upgrade -y
-pkg install -y python ffmpeg git wget termux-api
-pip install --upgrade pip
+pkg install -y python ffmpeg termux-api
 
 # Clone bot if not already cloned
 if [ ! -d "TechyCR7-lofi-bot" ]; then
@@ -16,7 +15,7 @@ fi
 cd TechyCR7-lofi-bot
 chmod +x *
 
-# Install Python packages
+# Install only required Python libs
 pip install -r requirements.txt
 
 # Ask for bot token
@@ -24,15 +23,15 @@ echo -e "\n🔑 Enter your Telegram Bot Token:"
 read TOKEN
 echo "$TOKEN" > bot_token.txt
 
-# Ask for your name
-echo -e "\n✍️ Enter your name or @username to show in credits:"
+# Ask for your credit name
+echo -e "\n✍️ Enter your name or @username to show as remaker:"
 read REMAKER
 echo "$REMAKER" > maker.txt
 
-# Ask how to run
+# Choose server mode
 echo -e "\n🚀 Choose how to run the bot:"
 echo "1️⃣ Temporary Server (manual)"
-echo "2️⃣ 24x7 Server (background mode with wake lock)"
+echo "2️⃣ 24x7 Server (background with wakelock)"
 read -p "👉 Enter 1 or 2: " MODE
 
 if [[ "$MODE" == "1" ]]; then
@@ -48,7 +47,7 @@ elif [[ "$MODE" == "2" ]]; then
     echo "📂 Location: $(pwd)"
     echo "📄 Logs: tail -f nohup.out"
     echo "🛑 Stop: pkill -f bot.py"
-    echo -e "🧠 Coded by @SuryaXCristiano | 🚀 Remade by $REMAKER"
+    echo -e "🧠 Coded by @SuryaXCristiano | Remade by $REMAKER"
     echo -e "👉 Press Enter to return to Termux shell..."
     read
 else
