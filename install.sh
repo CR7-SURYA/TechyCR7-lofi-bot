@@ -1,16 +1,12 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
 clear
-echo "🔧 Installing TechyCR7 LoFi Bot..."
+echo "🎧 Installing TechyCR7 LoFi Bot..."
 
-# Update and install dependencies
+# Update & install requirements
 pkg update -y && pkg upgrade -y
-pkg install -y python ffmpeg git wget
+pkg install -y python ffmpeg git wget termux-api
 pip install --upgrade pip
-
-# Optional: install termux-wake-lock to prevent sleep
-pkg install -y termux-api
-termux-wake-lock
 
 # Clone bot if not already cloned
 if [ ! -d "TechyCR7-lofi-bot" ]; then
@@ -18,31 +14,43 @@ if [ ! -d "TechyCR7-lofi-bot" ]; then
 fi
 
 cd TechyCR7-lofi-bot
-
-# Give permission and install Python requirements
 chmod +x *
+
+# Install Python packages
 pip install -r requirements.txt
 
-# Ask user how they want to run the bot
-echo -e "\n🚀 How do you want to run the bot?"
-echo "1️⃣ Temporary Mode (Runs only while Termux is open)"
-echo "2️⃣ 24x7 Background Mode (Runs in background even after closing Termux)"
-read -p "👉 Enter 1 or 2: " mode
+# Ask for bot token
+echo -e "\n🔑 Enter your Telegram Bot Token:"
+read TOKEN
+echo "$TOKEN" > bot_token.txt
 
-if [ "$mode" = "2" ]; then
+# Ask for your name
+echo -e "\n✍️ Enter your name or @username to show in credits:"
+read REMAKER
+echo "$REMAKER" > maker.txt
+
+# Ask how to run
+echo -e "\n🚀 Choose how to run the bot:"
+echo "1️⃣ Temporary Server (manual)"
+echo "2️⃣ 24x7 Server (background mode with wake lock)"
+read -p "👉 Enter 1 or 2: " MODE
+
+if [[ "$MODE" == "1" ]]; then
+    echo -e "\n🟢 Starting bot in Temporary Server mode..."
+    echo -e "✅ Bot is running. (Press Ctrl + C to stop)"
+    python bot.py
+elif [[ "$MODE" == "2" ]]; then
     termux-wake-lock
-    echo -e "\n🟢 Starting in 24x7 Background Mode..."
+    echo -e "\n🟢 Starting bot in 24x7 Server mode..."
     nohup python bot.py > nohup.out 2>&1 &
     sleep 1
-    echo -e "\n✅ Bot is installed and running!"
-    echo "📂 Project Location: $(pwd)"
-    echo -e "🧠 Coded by @SuryaXCristiano | Remade by Siu"
-    echo -e "📄 To see logs: \033[1mtail -f $(pwd)/nohup.out\033[0m"
-    echo -e "🛑 To stop bot: \033[1mpkill -f bot.py\033[0m"
+    echo -e "\n✅ Bot is installed and running in background!"
+    echo "📂 Location: $(pwd)"
+    echo "📄 Logs: tail -f nohup.out"
+    echo "🛑 Stop: pkill -f bot.py"
+    echo -e "🧠 Coded by @SuryaXCristiano | 🚀 Remade by $REMAKER"
     echo -e "👉 Press Enter to return to Termux shell..."
     read
 else
-    echo -e "\n🟢 Starting in Temporary Mode..."
-    echo -e "✅ Bot is running... \033[1m(Press Ctrl + C to stop)\033[0m"
-    python bot.py
+    echo "❌ Invalid option. Please run install.sh again and choose 1 or 2."
 fi
