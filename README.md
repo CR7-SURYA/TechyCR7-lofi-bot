@@ -49,4 +49,16 @@ chmod +x *
 
 ./install.sh
 ```
-## After Running install script and giving your username
+## 🛠️ After Running install script 
+
+- It will ask If you want a temporary server or a 24x7 live server 🚀
+- If you choose temporary server, you might need to keep the termux in split screen or floating window, otherwise it may not work 👊
+- Use ctrl+c to exit temporary mode 🤝
+- If you choose 24x7 server, you don't need to keep the termux in floating window or split screen, you can even clear it from recent apps !!! 🔥🔥🔥
+- Make sure termux is running in device background 🤝
+## 🚀 Useful Tips...
+- ✅ Make sure you have disabled battery optimisation for termux if you want your 24x7 live server
+- ✅ Don't kill termux's background process
+- ✅ If your bot is not working, revoke your bot token from Botfather and try again
+- ✅ Lastly, if any errors are happening , report me on telegram 👍
+### Enjoy !!! ✨💕
