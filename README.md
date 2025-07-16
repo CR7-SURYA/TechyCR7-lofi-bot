@@ -1,6 +1,6 @@
 # 🎧 TechyCR7 Lo-Fi Bot
 
-Turn your own Telegram bot into a powerful **Lo-Fi Music Generator** with just one install!  
+🔥 Turn your own Telegram bot into a powerful **Lo-Fi Music Generator** with just one install!  
 This tool lets you convert any music/audio file into a slowed + pitch-modified version with cool effects like **Reverb**, **Vinyl**, or **Rain**.
 
 > 🔥 Coded by **Surya**  
@@ -10,14 +10,14 @@ This tool lets you convert any music/audio file into a slowed + pitch-modified v
 
 ## 🚀 Features
 
--☑️ Convert any MP3, M4A, WAV, or OGG into Lo-Fi 
--☑️ Choose **speed** (50% to 200%), **pitch** (-7.0 to +7.0), and **effects** (Reverb, Vinyl, Rain) 
--☑️ Works fully inside **Termux**
--☑️ Includes **Auto Mode** ( Auto Lofi with best settings ) and **Custom Mode** ( Manually adjust settings )
--☑️ Inline cool processing animation 
--☑️ Choose **Preview** (15 sec) or **Full** song after processing
--☑️ One-file setup
--☑️ Runs **24x7** in background using `nohup` and `termux-wake-lock`, no need of any API server 
+- ☑️ Convert any MP3, M4A, WAV, or OGG into Lo-Fi 
+- ☑️ Choose **speed** (50% to 200%), **pitch** (-7.0 to +7.0), and **effects** (Reverb, Vinyl, Rain) 
+- ☑️ Works fully inside **Termux**
+- ☑️ Includes **Auto Mode** ( Auto Lofi with best settings ) and **Custom Mode** ( Manually adjust settings )
+- ☑️ Inline cool processing animation 
+- ☑️ Choose **Preview** (15 sec) or **Full** song after processing
+- ☑️ One-file setup
+- ☑️ Runs **24x7** in background using `nohup` and `termux-wake-lock`, no need of any API server !!!
 
 
 
