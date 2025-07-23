@@ -37,6 +37,8 @@ Make sure you have:
 ```bash
 pkg update and pkg upgrade -y
 
+pkg install python-pip
+
 pkg install git -y
 
 pkg install ffmpeg -y
